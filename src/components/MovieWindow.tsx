@@ -7,7 +7,7 @@ type Props={
 export const MovieWindow:FC<Props> = ({movie})=>{
     return (
         <div className = "movie_container">
-            {movie.title_long}
+            {movie.title}
         </div>
     )
 } 
