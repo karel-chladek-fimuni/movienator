@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useMovies } from "../stores/MovieStore";
 import { makeStyles } from '@material-ui/core/styles';
 import SearchInput from "../components/SearchInput";
 import { MovieWindow } from "../components";
@@ -20,6 +19,7 @@ import TextField from '@material-ui/core/TextField';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Slider from '@material-ui/core/Slider';
+import { MovieQueue } from '../components/MovieQueue';
 
 const useStyles = makeStyles((theme) => ({
     toggleContainer: {
@@ -181,6 +181,16 @@ export const MovieSearch = () => {
                 ? 'Yes, Zobraz film!'
                 : 'No results'
             }
+            <MovieQueue filter={{
+                year_filter:{
+                    min:2020,
+                    max:2020
+                },
+                genre_filter:{
+                    needed:["Horror","Comedy"],
+                    forbiden:[]
+                }
+            }}/>
         </div>
         
         

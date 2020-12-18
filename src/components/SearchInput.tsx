@@ -63,7 +63,6 @@ const SearchInput: FC<SearchInputProps> = props => {
                     onChange={handleChangeInput}
                     className={classes.input}
                     placeholder="Search Movies"
-                    fullWidth
                 />
                 <Divider orientation="vertical" className={classes.divider}/>
                 <IconButton className={classes.button} onClick={isChanged ? props.onClear : () => props.onChange(localValue)}>
