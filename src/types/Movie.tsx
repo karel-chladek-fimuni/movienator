@@ -3,7 +3,7 @@ import { Torrent } from "./Torrent"
 
 export interface Movie {
     id: number,
-    title: string,
+    title?: string,
     url?: string,
     imdb_code?: string,
     title_long?: string

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {Filters} from "../components/Filters"
+import {Filters,MovieQueue} from "../components"
 import {Genre, years, language, genres} from "../types"
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +31,17 @@ export const MovieSearch = () => {
             {console.log(ratingValue)}
             {console.log(yearValue)}
             {console.log(languageFilter)}
-
+            
+            <MovieQueue filter={{
+                year_filter:{
+                    min:2020,
+                    max:2020
+                },
+                genre_filter:{
+                    needed:["Horror","Comedy"],
+                    forbiden:[]
+                }
+            }}/>
         </div>
         
         
