@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Movie } from "../types";
+import { Movie } from "../types/Movie";
 
 
 const loadMovies: () => Promise<Movie[]> = async () => {
