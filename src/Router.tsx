@@ -37,8 +37,8 @@ export const Router = () => {
             <AppBar color="transparent" position="static">
                 <Tabs
                 value={value}
-                indicatorColor="secondary"
-                textColor="secondary"
+                indicatorColor="primary"
+                textColor="primary"
                 onChange={handleChange}
                 aria-label="disabled tabs example">
                     <Typography variant="h5"> Movienator </Typography>

@@ -19,6 +19,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import Slider from '@material-ui/core/Slider';
 
 const useStyles = makeStyles((theme) => ({
     toggleContainer: {
@@ -50,14 +51,46 @@ export const MovieSearch = () => {
     const search = new URLSearchParams()
     const searchString = search.get('q') || ''
     const [genreName, setGenre] = useState<Genre[]>([]);
+    const [yearValue, setYearValue] = React.useState<number[]>([1990, 2020]); //zmenit na minmax year
+    const [ratingValue, setRatingValue] = React.useState<number[]>([0, 5]);
 
     const [formats, setFormats] = useState(() => ['']);
 
     var selectGenre = undefined;
+    var selectYear = undefined;
+    var selectRating = undefined;
+
+    const handleFormat = (event: React.MouseEvent<HTMLElement>, newFormats: string[]) => {
+        if (newFormats.length) {
+          setFormats(newFormats);
+        }
+    };
+    
+    const handleRatingChange = (event: any, newValue: number | number[]) => {
+        setRatingValue(newValue as number[]);
+    };
+
+    const handleYearChange = (event: any, newValue: number | number[]) => {
+        setYearValue(newValue as number[]);
+    };
+
+    function valuetext(value: number) {
+        return `${value}`;
+      }
+
+    const handleChangeSearchValue = (value: string) => {
+        // history.replace(value ? `/?q=${value}` : '')
+    }
+
+    const handleClickClear = () => {
+        // history.replace('')
+    }
+
     if(formats.indexOf("genre")>-1){
         selectGenre = <Autocomplete
                             multiple
                             id="checkboxes-tags"
+                            size="small"
                             options={genres}
                             disableCloseOnSelect
                             getOptionLabel={(option) => option}
@@ -70,8 +103,6 @@ export const MovieSearch = () => {
                                     checked={selected}
                                 />
                                 {option}
-                                {console.log(formats)}
-                                {/* {console.log(selected, option)} */}
                                 </React.Fragment>
                             )}
                             style={{ width: 400 }}
@@ -83,27 +114,43 @@ export const MovieSearch = () => {
         selectGenre = undefined;
     }
 
-    const handleFormat = (event: React.MouseEvent<HTMLElement>, newFormats: string[]) => {
-        if (newFormats.length) {
-          setFormats(newFormats);
-        }
-      };
+    if(formats.indexOf("year")>-1){
+        selectYear = <Slider
+            min={1990}
+            step={1}
+            max={2020}
+            value={yearValue}
+            onChange={handleYearChange}
+            valueLabelDisplay="auto"
+            aria-labelledby="range-slider"
+            getAriaValueText={valuetext}
+        />
+    }else{
+        selectYear = undefined;
+    }
+
+    if(formats.indexOf("rating")>-1){
+        selectRating = <Slider
+            min={0}
+            step={0.1}
+            max={5}
+            value={ratingValue}
+            onChange={handleRatingChange}
+            valueLabelDisplay="auto"
+            aria-labelledby="range-slider"
+            getAriaValueText={valuetext}
+        />
+    }else{
+        selectRating = undefined;
+    }
     
-
-    const handleChangeSearchValue = (value: string) => {
-        // history.replace(value ? `/?q=${value}` : '')
-    }
-
-    const handleClickClear = () => {
-        // history.replace('')
-    }
 
     return (
         <div>
             <SearchInput value={searchString} onClear={handleClickClear} onChange={handleChangeSearchValue}/>
             <Grid item sm={12} md={6}>
             <div className={classes.toggleContainer}>
-            <ToggleButtonGroup value={formats} onChange={handleFormat} aria-label="filters">
+            <ToggleButtonGroup size="small" value={formats} onChange={handleFormat} aria-label="filters">
                 <ToggleButton value="genre" aria-label="genre">
                 <PowerSettingsNew style={{ fontSize: "18px" }} />
                 &nbsp; Genre
@@ -123,6 +170,8 @@ export const MovieSearch = () => {
             </ToggleButtonGroup>
             
             {selectGenre}
+            {selectRating}
+            {selectYear}
 
             </div>
 
