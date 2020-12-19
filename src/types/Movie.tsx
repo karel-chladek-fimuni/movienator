@@ -12,7 +12,7 @@ export interface Movie {
     rating?: number,
     runtime?: number,
     genres?: Genre[],
-    summary?: string,
+    description_full?:string,
     yt_trailer_code?: string,
     language?: string,
     mpa_rating?: string,
