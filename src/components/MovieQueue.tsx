@@ -18,8 +18,8 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
   },
   wrapper: {
-    height: "100%",
-    minHeight: "40rem",
+    minHeight: "5rem",
+    maxHeight: "5rem",
   },
 }));
 
