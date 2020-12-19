@@ -1,21 +1,12 @@
-import React, { useState } from 'react';
-import { useMovies } from "../stores/MovieStore";
+import React, { FC, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import SearchInput from "../components/SearchInput";
-import { MovieWindow } from "../components";
 import {Genre, years, language, genres} from "../types"
 
-import { MenuItem } from "@material-ui/core";
-import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import FormControl from '@material-ui/core/FormControl';
-import ListItemText from '@material-ui/core/ListItemText';
-import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
-import Chip from '@material-ui/core/Chip';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
@@ -30,25 +21,42 @@ const useStyles = makeStyles((theme) => ({
     chips: {
         display: 'flex',
         flexWrap: 'wrap',
-      },
-      chip: {
+    },
+    chip: {
         margin: 2,
-      },
+    },
+    wrapper: {
+        minHeight: "5rem",
+        maxHeight: "5rem",
+    },
+    margin: {
+        margin: theme.spacing(1),
+    },
   }));
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-export const Filters = () => {
+type FilterProps = {
+    onSetYears: (y: Array<number>) => void,
+    onSetRating: (r: Array<number>) => void,
+    onSetGenre: (g: Array<string>) => void,
+    onSetLanguage: (l: Array<string>) => void,
+
+}
+
+export const Filters: FC<FilterProps> = props => {
     const classes = useStyles();
-    const [yearValue, setYearValue] = React.useState<number[]>([years.min, years.max]); //zmenit na minmax year
-    const [ratingValue, setRatingValue] = React.useState<number[]>([0, 5]);
     const [formats, setFormats] = useState(() => ['']);
+    const [yearValue, setYearValue] = React.useState<number[]>([years.min,years.max]); //zmenit na minmax year
+    const [ratingValue, setRatingValue] = React.useState<number[]>([0,5]);
     const [genFilt, setGenreFilters] = useState<string[]>([]);
+    const [languageFilt, setLanguage] = useState<string[]>([]);
 
     var selectGenre = undefined;
     var selectYear = undefined;
     var selectRating = undefined;
+    var selectLanguage = undefined;
 
     const handleFormat = (event: React.MouseEvent<HTMLElement>, newFormats: string[]) => {
         if (newFormats.length) {
@@ -90,7 +98,7 @@ export const Filters = () => {
                             onChange={(event, val) => {
                                 setGenreFilters(val)
                             }}
-                            style={{ width: 400 }}
+                            style={{ width: "auto" }}
                             renderInput={(params) => (
                                 <TextField {...params} variant="outlined" placeholder="Genres" />
                             )}
@@ -129,17 +137,50 @@ export const Filters = () => {
         selectRating = undefined;
     }
 
+    if(formats.indexOf("language")>-1){
+        selectLanguage = <Autocomplete
+                            multiple
+                            id="checkboxes-tags"
+                            size="small"
+                            options={language}
+                            disableCloseOnSelect
+                            getOptionLabel={(option) => option}
+                            renderOption={(option, { selected }) => (
+                                <React.Fragment>
+                                <Checkbox
+                                    icon={icon}
+                                    checkedIcon={checkedIcon}
+                                    style={{ marginRight: 8 }}
+                                    checked={selected}
+                                />
+                                {option}
+                                </React.Fragment>
+                            )}
+                            onChange={(event, val) => {
+                                setLanguage(val)
+                            }}
+                            style={{ width: "auto" }}
+                            renderInput={(params) => (
+                                <TextField {...params} variant="outlined" placeholder="Languages" />
+                            )}
+                        />
+    }else{
+        selectLanguage = undefined;
+    }
+
     
     const getFilters = () => {
-        console.log(genFilt)
-        console.log(yearValue)
-        console.log(ratingValue)
+        props.onSetGenre(genFilt)
+        props.onSetRating(ratingValue)
+        props.onSetYears(yearValue)
+        props.onSetLanguage(languageFilt)
     };
 
     return(
         <div className={classes.toggleContainer}>
             {/* <Grid container spacing={0}> */}
-                <ToggleButtonGroup size="small" value={formats} onChange={handleFormat} aria-label="filters">
+                <ToggleButtonGroup style={{ marginLeft: 30 }} size="small" value={formats} onChange={handleFormat} aria-label="filters">
+                    
                     {/* <Grid item xs> */}
                         <ToggleButton value="genre" aria-label="genre">
                         &nbsp; Genre
@@ -160,16 +201,37 @@ export const Filters = () => {
                             &nbsp; Language
                         </ToggleButton>
                     {/* </Grid> */}
-                    <Button onClick={getFilters}>
-                        Filter
-                    </Button>
 
                 </ToggleButtonGroup>
+                {/* <Button onClick={getFilters}>
+                    Filter
+                </Button> */}
+                <Button className={classes.margin} variant="contained" color="primary" onClick={getFilters}>
+                    Filter
+                </Button>
             {/* </Grid> */}
-            
-            {selectGenre}
-            {selectRating}
-            {selectYear}
+            <Grid
+                container
+                direction="row"
+                alignItems="stretch"
+                justify="space-evenly"
+                spacing={3}
+                className={classes.wrapper}
+                >
+                <Grid item xs={4}>
+                    {selectGenre}
+                </Grid>
+                <Grid item xs={2}>
+                    {selectRating}
+                </Grid>
+                <Grid item xs={2}>
+                    {selectYear}
+                </Grid>
+                <Grid item xs={4}>
+                    {selectLanguage}
+                </Grid>
+            </Grid>
+                
 
             </div>
     );

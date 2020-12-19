@@ -6,7 +6,7 @@ import {
     Link
 } from 'react-router-dom';
 import {route} from "./routes";
-import { Home,MovieSearch,Notfound } from './pages';
+import { Home,MovieSearch,Notfound, Login } from './pages';
 import { AppBar, Tabs, Tab, Typography } from "@material-ui/core";
 import { Face } from '@material-ui/icons';
 import Fab from '@material-ui/core/Fab';
@@ -45,7 +45,7 @@ export const Router = () => {
                     <Tab label='Home'  to={route.home} component={Link} />
                     <Tab label='Movies'  to={route.movie_search} component={Link} />
                     <Tab label = 'My List'/>
-                    <Fab className={classes.fab}>
+                    <Fab className={classes.fab} to={route.login} component={Link}>
                         <Face />
                     </Fab>
                 </Tabs>
@@ -55,6 +55,7 @@ export const Router = () => {
             <Switch>
                 <Route path={route.home} exact component={Home} />
                 <Route path={route.movie_search} exact component={MovieSearch} />
+                <Route path={route.login} exact component={Login} />
                 <Route component={Notfound} />
             </Switch>
         </BrowserRouter>
