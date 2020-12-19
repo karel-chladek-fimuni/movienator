@@ -147,40 +147,44 @@ export const MovieSearch = () => {
 
     return (
         <div>
-            <SearchInput value={searchString} onClear={handleClickClear} onChange={handleChangeSearchValue}/>
-            <Grid item sm={12} md={6}>
+            {/* <SearchInput value={searchString} onClear={handleClickClear} onChange={handleChangeSearchValue}/> */}
+            
             <div className={classes.toggleContainer}>
-            <ToggleButtonGroup size="small" value={formats} onChange={handleFormat} aria-label="filters">
-                <ToggleButton value="genre" aria-label="genre">
-                <PowerSettingsNew style={{ fontSize: "18px" }} />
-                &nbsp; Genre
-                </ToggleButton>
-                <ToggleButton value="rating" aria-label="rating">
-                <PowerSettingsNew style={{ fontSize: "18px" }} />
-                &nbsp; Rating
-                </ToggleButton>
-                <ToggleButton value="year" aria-label="year">
-                <PowerSettingsNew style={{ fontSize: "18px" }} />
-                &nbsp; Year
-                </ToggleButton>
-                <ToggleButton value="language" aria-label="language">
-                <PowerSettingsNew style={{ fontSize: "18px" }} />
-                &nbsp; Language
-                </ToggleButton>
-            </ToggleButtonGroup>
+            {/* <Grid container spacing={0}> */}
+                <ToggleButtonGroup size="small" value={formats} onChange={handleFormat} aria-label="filters">
+                    {/* <Grid item xs> */}
+                        <ToggleButton value="genre" aria-label="genre">
+                        &nbsp; Genre
+                        </ToggleButton>
+                    {/* </Grid> */}
+                    {/* <Grid item xs> */}
+                        <ToggleButton value="rating" aria-label="rating">
+                        &nbsp; Rating
+                        </ToggleButton>
+                    {/* </Grid> */}
+                    {/* <Grid item xs> */}
+                        <ToggleButton value="year" aria-label="year">
+                        &nbsp; Year
+                        </ToggleButton>
+                    {/* </Grid> */}
+                    {/* <Grid item xs> */}
+                        <ToggleButton value="language" aria-label="language">
+                            &nbsp; Language
+                        </ToggleButton>
+                    {/* </Grid> */}
+
+                </ToggleButtonGroup>
+            {/* </Grid> */}
             
             {selectGenre}
             {selectRating}
             {selectYear}
 
             </div>
-
-
-            </Grid>
-            {searchString.length > 3 
+            {/* {searchString.length > 3 
                 ? 'Yes, Zobraz film!'
                 : 'No results'
-            }
+            } */}
         </div>
         
         
