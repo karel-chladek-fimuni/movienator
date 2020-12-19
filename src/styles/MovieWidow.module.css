@@ -1,0 +1,34 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 0.4fr 0.4fr 0.4fr 1.8fr 2fr;
+    gap: 0px 0px;
+    grid-template-areas:
+      "poster full_title"
+      "poster year_rating"
+      "poster download_netflix"
+      "poster description"
+      "poster yt_trailer";
+  }
+  
+  .poster {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+      ". . ."
+      ". . .";
+    grid-area: poster;
+  }
+  
+  .full_title { grid-area: full_title; }
+  
+  .year_rating { grid-area: year_rating; }
+  
+  .download_netflix { grid-area: download_netflix; }
+  
+  .description { grid-area: description; }
+  
+  .yt_trailer { grid-area: yt_trailer; }
+  

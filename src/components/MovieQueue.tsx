@@ -43,7 +43,7 @@ export const MovieQueue: FC<Props> = ({ filter }) => {
       spacing={3}
       className={classes.wrapper}
     >
-      <Grid item lg={1}>
+      <Grid item xs={1}>
         <Button
           className={classes.button}
           color="secondary"
@@ -55,14 +55,14 @@ export const MovieQueue: FC<Props> = ({ filter }) => {
           <ArrowBackIosIcon />
         </Button>
       </Grid>
-      <Grid item lg={10}>
+      <Grid item xs={10}>
         {index < movies.length && index >= 0 ? (
           <MovieWindow movie={{ id: movies[index] }} />
         ) : (
           <MovieWindow />
         )}
       </Grid>
-      <Grid item lg={1}>
+      <Grid item xs={1}>
         <Button
           className={classes.button}
           color="secondary"
