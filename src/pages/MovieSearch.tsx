@@ -1,3 +1,4 @@
+import React from "react";
 import { useMovies } from "../stores/MovieStore";
 import { MovieWindow } from "../components";
 export const MovieSearch = () => {
