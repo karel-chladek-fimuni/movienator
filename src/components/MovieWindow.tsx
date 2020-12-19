@@ -29,7 +29,8 @@ type PossibleMovie = {
 };
 
 const useStyles = makeStyles((theme) => ({
-  wrapper: {
+  rating: {
+      marginLeft:"1rem"
   },
   media: {},
 }));
@@ -48,10 +49,9 @@ export const MovieWindow: FC<Props> = (props) => {
 
   if (typeof props.movie == "undefined" || typeof movie.get == "undefined") {
     return (
-      <Card className={classes.wrapper}>
-        <CardContent className={classes.wrapper}>
+      <Card>
+        <CardContent >
           <Grid
-            className={classes.wrapper}
             container
             alignContent="space-around"
             justify="space-around"
@@ -66,7 +66,7 @@ export const MovieWindow: FC<Props> = (props) => {
   }
   console.log(movie.get!.medium_cover_image!);
   return (
-    <Card className={classes.wrapper}>
+    <Card>
       <CardHeader
         title={movie.get!.title}
         titleTypographyProps={{ align: "center" }}
@@ -78,9 +78,13 @@ export const MovieWindow: FC<Props> = (props) => {
               src={movie.get!.medium_cover_image}
             />
           </div>
-          <div className={styles.year_rating}>
-            <Rating readOnly precision={0.1} value={movie.get!.rating} />
+          <div className={styles.year}>
             <Typography>Year: {movie.get!.year}</Typography>
+          </div>
+          <div className={styles.rating}>
+            <Typography>{"Rating:"}</Typography>
+            <Rating className={classes.rating} readOnly precision={0.1} value={movie.get!.rating} />
+            <Typography>{`(${movie.get!.rating})`}</Typography>
           </div>
           <div className={styles.download_netflix}>
             <Link href={movie.get.torrents![0].url}>Download</Link>
