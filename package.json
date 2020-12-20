@@ -50,5 +50,8 @@
   "main": "index.js",
   "repository": "https://github.com/karel-chladek-fimuni/movienator.git",
   "author": "Magdalena Kejstova <456569@fi.muni.cz>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@svgr/webpack": "^5.5.0"
+  }
 }

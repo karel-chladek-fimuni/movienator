@@ -14,9 +14,13 @@ const theme = createMuiTheme({
         marginLeft: "20px",
         fontFamily: 'Helvetica'
       },
-      h5:{
+      h4:{
         fontWeight: 100,
         fontFamily:'-apple-system',
+        fontSize: 30,
+      },
+      h5:{
+        fontWeight: 600,
         fontSize: 30,
       }
     },
