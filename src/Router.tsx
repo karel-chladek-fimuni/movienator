@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   fab: { size: "medium" },
 }));
 
-const routeIndices = ["Logo", route.home, route.movie_search, "lists", "login"];
+const routeIndices = [route.home, route.movie_search, "lists"];
 
 export const Router = () => {
   const classes = useStyles();
