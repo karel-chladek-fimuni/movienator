@@ -14,12 +14,9 @@ import {
   CircularProgress,
   CardContent,
   makeStyles,
-  CardMedia,
   CardHeader,
-  Paper,
   Link,
 } from "@material-ui/core";
-import { Torrent } from "../types/Torrent";
 
 type Props = {
   movie?: Movie;
@@ -90,7 +87,7 @@ export const MovieWindow: FC<Props> = (props) => {
       <CardContent>
         <div className={styles.grid_container}>
           <div className={styles.poster}>
-            <img className={styles.poster_img}
+            <img className={styles.poster_img} alt=""
               src={movie.get!.medium_cover_image}
             />
           </div>

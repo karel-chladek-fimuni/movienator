@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { Movie, Filter } from "../types";
+import { Movie } from "../types";
 import { filter_server } from "../routes";
 
 

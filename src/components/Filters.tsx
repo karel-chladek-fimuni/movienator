@@ -1,5 +1,4 @@
 import React, { FC, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Genre,
   years,
@@ -13,35 +12,12 @@ import {
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import ToggleButton from "@material-ui/lab/ToggleButton";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Checkbox from "@material-ui/core/Checkbox";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import Slider from "@material-ui/core/Slider";
-import { spacing } from "@material-ui/system";
-import { Card, Typography } from "@material-ui/core";
-
-const useStyles = makeStyles((theme) => ({
-  toggleContainer: {
-    margin: theme.spacing(2, 0),
-  },
-  chips: {
-    display: "flex",
-    flexWrap: "wrap",
-  },
-  chip: {
-    margin: 2,
-  },
-  wrapper: {
-    minHeight: "5rem",
-    maxHeight: "5rem",
-  },
-  margin: {
-    margin: theme.spacing(1),
-  },
-}));
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -68,7 +44,6 @@ type selectKey = typeof selectKeys[number];
 type ToggleGroup = Record<selectKey, boolean>;
 
 export const Filters: FC<FilterProps> = ({ onSubmit }) => {
-  const classes = useStyles();
   const [filter, setFilter] = useState<Filter>({ ...base_filter });
   const [filterToggles, setFilterToggles] = useState<ToggleGroup>({
     genre: false,
@@ -96,8 +71,6 @@ export const Filters: FC<FilterProps> = ({ onSubmit }) => {
   function valuetext(value: number) {
     return `${value}`;
   }
-
-  let gen: string[] = [];
 
   const genres: Genre[] = [...genre_list];
   const language: Language[] = [...language_list];
@@ -215,11 +188,11 @@ export const Filters: FC<FilterProps> = ({ onSubmit }) => {
       borderBottomRightRadius: 0,
       borderLeftWidth: 0,
     };
-    if (i == 0) {
+    if (i === 0) {
       styling["borderTopLeftRadius"] = 5;
       styling["borderBottomLeftRadius"] = 5;
       styling["borderLeftWidth"] = 1;
-    } else if (i == selectKeys.length - 1) {
+    } else if (i === selectKeys.length - 1) {
       styling["borderTopRightRadius"] = 5;
       styling["borderBottomRightRadius"] = 5;
     }
@@ -233,6 +206,7 @@ export const Filters: FC<FilterProps> = ({ onSubmit }) => {
               setFilterToggles(new_toggle);
             }}
             style={styling}
+            value={filterToggles[key]}
             selected={filterToggles[key]}
           >
             {" "}
@@ -245,7 +219,6 @@ export const Filters: FC<FilterProps> = ({ onSubmit }) => {
           }
           item
           xs={key==="genre" || key==="language"? 12 : 9}
-          alignContent="center"
         >
           {select_arr[key]}
         </Grid>

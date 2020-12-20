@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FC } from "react";
-import { Filter, Movie } from "../types";
+import { Filter } from "../types";
 import { MovieWindow } from "./MovieWindow";
 import { fetchMovieIds } from "../stores/MovieStore";
 import React from "react";
