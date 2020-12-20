@@ -1,9 +1,9 @@
-import { Genre } from "./Genre"
+import { Genre } from "../types"
 import { Torrent } from "./Torrent"
 
 export interface Movie {
     id: number,
-    title: string,
+    title?: string,
     url?: string,
     imdb_code?: string,
     title_long?: string
@@ -12,7 +12,7 @@ export interface Movie {
     rating?: number,
     runtime?: number,
     genres?: Genre[],
-    summary?: string,
+    description_full?:string,
     yt_trailer_code?: string,
     language?: string,
     mpa_rating?: string,
