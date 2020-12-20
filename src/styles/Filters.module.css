@@ -1,0 +1,26 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 1.3fr 0.9fr 0.8fr 1fr;
+    grid-template-rows: 0.5fr 1.5fr;
+    gap: 1em 1em;
+    grid-template-areas:
+      "genres_label rank_label year_label language_label"
+      "genres_value rank_value year_value language_value";
+  }
+  
+  .genres_label { grid-area: genres_label; }
+  
+  .rank_label { grid-area: rank_label; }
+  
+  .year_label { grid-area: year_label; }
+  
+  .language_label { grid-area: language_label; }
+  
+  .genres_value { grid-area: genres_value; }
+  
+  .rank_value { grid-area: rank_value; }
+  
+  .year_value { grid-area: year_value; }
+  
+  .language_value { grid-area: language_value; }
+  
