@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {Genre, years, language, genres} from "../types"
+import {Genre, years, language_list, genre_list, Language, Filter, ratings} from "../types"
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -38,25 +38,28 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 type FilterProps = {
-    onSetYears: (y: Array<number>) => void,
-    onSetRating: (r: Array<number>) => void,
-    onSetGenre: (g: Array<string>) => void,
-    onSetLanguage: (l: Array<string>) => void,
-
+    onSubmit: (f:Filter)=>void
 }
 
-export const Filters: FC<FilterProps> = props => {
+export const Filters: FC<FilterProps> = ({onSubmit}) => {
     const classes = useStyles();
+    const [filter,setFilter] = useState<Filter>({
+        genre_filter: {
+            needed: [],
+            forbiden: []
+        },
+        rating_filter: ratings,
+        year_filter: years,
+        language_filter: {
+            possible: []
+        }
+    });
     const [formats, setFormats] = useState(() => ['']);
-    const [yearValue, setYearValue] = React.useState<number[]>([years.min,years.max]); //zmenit na minmax year
-    const [ratingValue, setRatingValue] = React.useState<number[]>([0,5]);
-    const [genFilt, setGenreFilters] = useState<string[]>([]);
-    const [languageFilt, setLanguage] = useState<string[]>([]);
-
-    var selectGenre = undefined;
-    var selectYear = undefined;
-    var selectRating = undefined;
-    var selectLanguage = undefined;
+    
+    let selectGenre = undefined;
+    let selectYear = undefined;
+    let selectRating = undefined;
+    let selectLanguage = undefined;
 
     const handleFormat = (event: React.MouseEvent<HTMLElement>, newFormats: string[]) => {
         if (newFormats.length) {
@@ -64,18 +67,24 @@ export const Filters: FC<FilterProps> = props => {
         }
     };
     
-    const handleRatingChange = (event: any, newValue: number | number[]) => {
-        setRatingValue(newValue as number[]);
+    const handleRatingChange = (event: any, nw: number|number[]) => {
+        const newValue:number[] = nw as number[];
+        setFilter({...filter,rating_filter:{min:newValue[0],max:newValue[1]}});
     };
 
-    const handleYearChange = (event: any, newValue: number | number[]) => {
-        setYearValue(newValue as number[]);
+    const handleYearChange = (event: any, nw: number|number[]) => {
+        const newValue:number[] = nw as number[];
+        setFilter({...filter,year_filter:{min:newValue[0],max:newValue[1]}});
     };
 
     function valuetext(value: number) {
         return `${value}`;
     }
+
     let gen:string[]=[]
+    
+    const genres:Genre[]=[...genre_list];
+    const language:Language[] = [...language_list];
     if(formats.indexOf("genre")>-1){
         selectGenre = <Autocomplete
                             multiple
@@ -96,7 +105,7 @@ export const Filters: FC<FilterProps> = props => {
                                 </React.Fragment>
                             )}
                             onChange={(event, val) => {
-                                setGenreFilters(val)
+                                setFilter({...filter,genre_filter:{...filter.genre_filter,needed:val}});
                             }}
                             style={{ width: "auto" }}
                             renderInput={(params) => (
@@ -109,10 +118,10 @@ export const Filters: FC<FilterProps> = props => {
 
     if(formats.indexOf("year")>-1){
         selectYear = <Slider
-            min={1990}
+            min={years.min}
             step={1}
-            max={2020}
-            value={yearValue}
+            max={years.max}
+            value={[filter.year_filter!.min,filter.year_filter!.max]}
             onChange={handleYearChange}
             valueLabelDisplay="auto"
             aria-labelledby="range-slider"
@@ -124,10 +133,10 @@ export const Filters: FC<FilterProps> = props => {
 
     if(formats.indexOf("rating")>-1){
         selectRating = <Slider
-            min={0}
+            min={ratings.min}
             step={0.1}
-            max={5}
-            value={ratingValue}
+            max={ratings.max}
+            value={[filter.rating_filter!.min,filter.rating_filter!.max]}
             onChange={handleRatingChange}
             valueLabelDisplay="auto"
             aria-labelledby="range-slider"
@@ -157,7 +166,7 @@ export const Filters: FC<FilterProps> = props => {
                                 </React.Fragment>
                             )}
                             onChange={(event, val) => {
-                                setLanguage(val)
+                                setFilter({...filter,language_filter:{...filter.language_filter,possible:val}});
                             }}
                             style={{ width: "auto" }}
                             renderInput={(params) => (
@@ -167,14 +176,6 @@ export const Filters: FC<FilterProps> = props => {
     }else{
         selectLanguage = undefined;
     }
-
-    
-    const getFilters = () => {
-        props.onSetGenre(genFilt)
-        props.onSetRating(ratingValue)
-        props.onSetYears(yearValue)
-        props.onSetLanguage(languageFilt)
-    };
 
     return(
         <div className={classes.toggleContainer}>
@@ -206,7 +207,7 @@ export const Filters: FC<FilterProps> = props => {
                 {/* <Button onClick={getFilters}>
                     Filter
                 </Button> */}
-                <Button className={classes.margin} variant="contained" color="primary" onClick={getFilters}>
+                <Button className={classes.margin} variant="contained" color="primary" onClick={()=>{onSubmit(filter)}}>
                     Filter
                 </Button>
             {/* </Grid> */}

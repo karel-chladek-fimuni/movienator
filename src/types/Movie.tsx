@@ -1,4 +1,4 @@
-import { Genre } from "./Genre"
+import { Genre } from "../types"
 import { Torrent } from "./Torrent"
 
 export interface Movie {
