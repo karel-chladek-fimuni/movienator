@@ -41,7 +41,7 @@ export const Router = () => {
                 textColor="primary"
                 onChange={handleChange}
                 aria-label="disabled tabs example">
-                    <Typography variant="h5"> Movienator </Typography>
+                    <Typography variant="h4"> Movienator </Typography>
                     <Tab label='Home'  to={route.home} component={Link} />
                     <Tab label='Movies'  to={route.movie_search} component={Link} />
                     <Tab label = 'My List'/>
