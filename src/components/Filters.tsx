@@ -21,6 +21,7 @@ import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import Slider from "@material-ui/core/Slider";
 import { spacing } from "@material-ui/system";
+import { Card, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   toggleContainer: {
@@ -61,20 +62,20 @@ const base_filter = {
   },
 };
 
+const selectKeys = ["genre", "rating", "year", "language"] as const;
+type selectKey = typeof selectKeys[number];
+
+type ToggleGroup = Record<selectKey, boolean>;
+
 export const Filters: FC<FilterProps> = ({ onSubmit }) => {
   const classes = useStyles();
-  const [filter, setFilter] = useState<Filter>(base_filter);
-
-  const [formats, setFormats] = useState(() => [""]);
-
-  const handleFormat = (
-    event: React.MouseEvent<HTMLElement>,
-    newFormats: string[]
-  ) => {
-    if (newFormats.length) {
-      setFormats(newFormats);
-    }
-  };
+  const [filter, setFilter] = useState<Filter>({ ...base_filter });
+  const [filterToggles, setFilterToggles] = useState<ToggleGroup>({
+    genre: false,
+    rating: false,
+    year: false,
+    language: false,
+  });
 
   const handleRatingChange = (event: any, nw: number | number[]) => {
     const newValue: number[] = nw as number[];
@@ -106,8 +107,9 @@ export const Filters: FC<FilterProps> = ({ onSubmit }) => {
       id="checkboxes-tags"
       size="small"
       options={genres}
-      disabled={formats.includes("genre")}
       disableCloseOnSelect
+      limitTags={2}
+      style={{margin:0}}
       getOptionLabel={(option) => option}
       renderOption={(option, { selected }) => (
         <React.Fragment>
@@ -126,41 +128,37 @@ export const Filters: FC<FilterProps> = ({ onSubmit }) => {
           genre_filter: { ...filter.genre_filter, needed: val },
         });
       }}
-      style={{ width: "auto" }}
       renderInput={(params) => (
         <TextField {...params} variant="outlined" placeholder="Genres" />
       )}
     />
   );
-
   let selectYear = (
     <Slider
       min={years.min}
       step={1}
       max={years.max}
-      disabled={formats.includes("year")}
       value={[filter.year_filter!.min, filter.year_filter!.max]}
       onChange={handleYearChange}
+      style={{margin:0}}
       valueLabelDisplay="auto"
       aria-labelledby="range-slider"
       getAriaValueText={valuetext}
     />
   );
-
   let selectRating = (
     <Slider
       min={ratings.min}
       step={0.1}
       max={ratings.max}
-      disabled={formats.includes("rating")}
       value={[filter.rating_filter!.min, filter.rating_filter!.max]}
       onChange={handleRatingChange}
       valueLabelDisplay="auto"
+      style={{margin:0}}
       aria-labelledby="range-slider"
       getAriaValueText={valuetext}
     />
   );
-
   let selectLanguage = (
     <Autocomplete
       multiple
@@ -168,8 +166,9 @@ export const Filters: FC<FilterProps> = ({ onSubmit }) => {
       size="small"
       options={language}
       disableCloseOnSelect
-      disabled={formats.includes("language")}
       getOptionLabel={(option) => option}
+      style={{margin:0}}
+      limitTags={2}
       renderOption={(option, { selected }) => (
         <React.Fragment>
           <Checkbox
@@ -187,67 +186,107 @@ export const Filters: FC<FilterProps> = ({ onSubmit }) => {
           language_filter: { ...filter.language_filter, possible: val },
         });
       }}
-      style={{ width: "auto" }}
       renderInput={(params) => (
         <TextField {...params} variant="outlined" placeholder="Languages" />
       )}
     />
   );
 
-  return (
-    <div className={classes.toggleContainer}>
-      <ToggleButtonGroup
-        style={{ marginLeft: 30 }}
-        size="small"
-        value={formats}
-        onChange={handleFormat}
-        aria-label="filters"
-      >
-        <ToggleButton value="genre" aria-label="genre">
-          &nbsp; Genre
-        </ToggleButton>
-        <ToggleButton value="rating" aria-label="rating">
-          &nbsp; Rating
-        </ToggleButton>
-        <ToggleButton value="year" aria-label="year">
-          &nbsp; Year
-        </ToggleButton>
-        <ToggleButton value="language" aria-label="language">
-          &nbsp; Language
-        </ToggleButton>
-      </ToggleButtonGroup>
-      <Button
-        className={classes.margin}
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          onSubmit(filter);
-        }}
-      >
-        Filter
-      </Button>
+  const select_arr = {
+    genre: selectGenre,
+    rating: selectRating,
+    year: selectYear,
+    language: selectLanguage,
+  };
+  const select_labels: Record<selectKey, string> = {
+    genre: "Genre",
+    rating: "Rating",
+    year: "Year",
+    language: "Language",
+  };
 
-      <Grid
-        container
-        direction="row"
-        alignItems="stretch"
-        justify="space-evenly"
-        spacing={3}
-        className={classes.wrapper}
-      >
-        <Grid item xs={4}>
-          {selectGenre}
+  const render_value = (key: selectKey, label: string, i: number) => {
+    const styling = {
+      width: "100%",
+      height: "100%",
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
+      borderLeftWidth: 0,
+    };
+    if (i == 0) {
+      styling["borderTopLeftRadius"] = 5;
+      styling["borderBottomLeftRadius"] = 5;
+      styling["borderLeftWidth"] = 1;
+    } else if (i == selectKeys.length - 1) {
+      styling["borderTopRightRadius"] = 5;
+      styling["borderBottomRightRadius"] = 5;
+    }
+    return (
+      <Grid container spacing={1} justify="space-evenly" alignItems="center">
+        <Grid item xs={12}>
+          <ToggleButton
+            onClick={() => {
+              const new_toggle = { ...filterToggles };
+              new_toggle[key] = !filterToggles[key];
+              setFilterToggles(new_toggle);
+            }}
+            style={styling}
+            selected={filterToggles[key]}
+          >
+            {" "}
+            {label}{" "}
+          </ToggleButton>
         </Grid>
-        <Grid item xs={2}>
-          {selectRating}
-        </Grid>
-        <Grid item xs={2}>
-          {selectYear}
-        </Grid>
-        <Grid item xs={4}>
-          {selectLanguage}
+        <Grid
+          style={
+            filterToggles[key] ? {} : { pointerEvents: "none", opacity: "0.4" }
+          }
+          item
+          xs={key==="genre" || key==="language"? 12 : 9}
+          alignContent="center"
+        >
+          {select_arr[key]}
         </Grid>
       </Grid>
-    </div>
+    );
+  };
+
+  return (
+    <Grid container spacing={2} style={{ marginTop: "1rem" }}>
+      <Grid item container justify="space-around">
+        {selectKeys.map((key: selectKey, idx: number) => (
+          <Grid key={idx} item xs={3}>
+            {render_value(key, select_labels[key], idx)}
+          </Grid>
+        ))}
+      </Grid>
+      <Grid item xs={12}>
+        <Button
+          style={{ width: "100%", height: "100%" }}
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            const newFilter: Filter = { ...base_filter };
+            if (filterToggles["genre"]) {
+              newFilter.genre_filter = filter.genre_filter;
+            }
+            if (filterToggles["rating"]) {
+              newFilter.rating_filter = filter.rating_filter;
+            }
+            if (filterToggles["year"]) {
+              newFilter.year_filter = filter.year_filter;
+            }
+            if (filterToggles["language"]) {
+              newFilter.language_filter = filter.language_filter;
+            }
+            onSubmit({ ...newFilter });
+          }}
+        >
+          Filter
+        </Button>
+      </Grid>
+    </Grid>
   );
 };

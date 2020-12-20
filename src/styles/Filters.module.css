@@ -1,26 +1,53 @@
-.grid-container {
-    display: grid;
-    grid-template-columns: 1.3fr 0.9fr 0.8fr 1fr;
-    grid-template-rows: 0.5fr 1.5fr;
-    gap: 1em 1em;
-    grid-template-areas:
-      "genres_label rank_label year_label language_label"
-      "genres_value rank_value year_value language_value";
-  }
-  
-  .genres_label { grid-area: genres_label; }
-  
-  .rank_label { grid-area: rank_label; }
-  
-  .year_label { grid-area: year_label; }
-  
-  .language_label { grid-area: language_label; }
-  
-  .genres_value { grid-area: genres_value; }
-  
-  .rank_value { grid-area: rank_value; }
-  
-  .year_value { grid-area: year_value; }
-  
-  .language_value { grid-area: language_value; }
-  
+.grid_container {
+  display: grid;
+  max-height: 20rem;
+  width: 100%;
+  margin-top: 5rem;
+  grid-template-rows: 0.3fr 0.3fr 0.3fr;
+  grid-template-areas:
+    "toggle_area "
+    "value_flexbox "
+    "filter_button ";
+}
+
+.value_box {
+  display: grid;
+
+  grid-area: "value_flexbox";
+  grid-template-columns: 0.25fr 0.25fr 0.25fr 0.25fr;
+  grid-template-areas: "genres_value rank_value year_value language_value";
+}
+.genres_value {
+  width: 100%;
+  margin: auto;
+  grid-area: genres_value;
+}
+
+.rank_value {
+  grid-area: rank_value;
+  width: 80%;
+  display: flex;
+  justify-items: center;
+  justify-content: center;
+}
+
+.year_value {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+}
+
+.language_value {
+  width: 100%;
+  margin: auto;
+  grid-area: language_value;
+}
+
+.toggle_area {
+  grid-area: toggle_area;
+}
+
+.filter_button {
+  grid-area: filter_button;
+  margin-bottom: 2rem;
+}

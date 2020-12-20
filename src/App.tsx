@@ -5,6 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import {blue, amber,red, lightGreen} from "@material-ui/core/colors";
 
 import { makeStyles } from "@material-ui/core/styles";
+import { BrowserRouter } from 'react-router-dom';
 
 const col = "#f44336"
 const theme = createMuiTheme({
@@ -58,17 +59,14 @@ const useStyles = makeStyles((theme) => ({
 
 const App: FC = props => {
   return (
-    <div>
-      {/* <ThemeProvider theme={logoTheme}>
-        <Typography variant="h5" >Movienator</Typography>
-      </ThemeProvider> */}
+    <BrowserRouter>
       <ThemeProvider theme={theme}>
         <CssBaseline/>
         <Container >
           <Router/>
         </Container>
       </ThemeProvider>
-    </div>
+    </BrowserRouter>
   );
 }
 

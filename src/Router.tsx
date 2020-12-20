@@ -3,7 +3,8 @@ import {
     BrowserRouter,
     Route,
     Switch,
-    Link
+    Link,
+    useLocation
 } from 'react-router-dom';
 import {route} from "./routes";
 import { Home,MovieSearch,Notfound, Login } from './pages';
@@ -21,10 +22,14 @@ const useStyles = makeStyles((theme) => ({
     fab: { size: "medium",position: 'absolute', right: theme.spacing(1),}
 }));
 
+const routeIndices=["Logo",route.home,route.movie_search,"lists","login"];
+
 export const Router = () => {
-    console.log(route.movie_search);
+    
+    
     const classes = useStyles();
-    const [value, setValue] = React.useState(2);
+    
+    const [value, setValue] = React.useState(routeIndices.indexOf(useLocation().pathname));
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue);
@@ -32,8 +37,7 @@ export const Router = () => {
 
 
     return (
-        <div>
-        <BrowserRouter>
+        <>
             <AppBar color="transparent" position="static">
                 <Tabs
                 value={value}
@@ -58,7 +62,6 @@ export const Router = () => {
                 <Route path={route.login} exact component={Login} />
                 <Route component={Notfound} />
             </Switch>
-        </BrowserRouter>
-        </div>
+        </>
     );
 }

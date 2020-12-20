@@ -47,7 +47,24 @@ export const MovieWindow: FC<Props> = (props) => {
     runEffect();
   }, [props]);
 
-  if (typeof props.movie == "undefined" || typeof movie.get == "undefined") {
+  if (typeof props.movie == "undefined"){
+    return (
+      <Card>
+        <CardContent >
+          <Grid
+            container
+            alignContent="space-around"
+            justify="space-around"
+          >
+            <Grid item>
+              <Typography > No result found</Typography>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+    );
+  }
+  if (typeof movie.get == "undefined") {
     return (
       <Card>
         <CardContent >
@@ -64,7 +81,6 @@ export const MovieWindow: FC<Props> = (props) => {
       </Card>
     );
   }
-  console.log(movie.get!.medium_cover_image!);
   return (
     <Card>
       <CardHeader
@@ -83,7 +99,7 @@ export const MovieWindow: FC<Props> = (props) => {
           </div>
           <div className={styles.rating}>
             <Typography>{"Rating:"}</Typography>
-            <Rating className={classes.rating} readOnly precision={0.1} value={movie.get!.rating} />
+            <Rating className={classes.rating} readOnly precision={0.1} value={movie.get!.rating!/2.0} />
             <Typography>{`(${movie.get!.rating})`}</Typography>
           </div>
           <div className={styles.download_netflix}>

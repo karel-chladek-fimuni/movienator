@@ -7,8 +7,6 @@ export const fetchMovie : (id:number)=>Promise<Movie> = async (id:number)=>{
     const data : any = await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`).then((response)=>(response.json())).catch((err)=>{
         console.log(err);
     });
-    console.log("given: ",id)
-    console.log(data);
     return data["data"]["movie"];
 };
 
@@ -16,7 +14,6 @@ export const fetchMovieIds: (filter_data: any) => Promise<number[]> = async (
   filter_data: any
 ) => {
   const request_body = JSON.stringify(filter_data);
-  console.log(request_body);
   const data: any = await fetch(filter_server.get_movies, {
     method: "POST",
     headers: {
@@ -29,7 +26,6 @@ export const fetchMovieIds: (filter_data: any) => Promise<number[]> = async (
     .catch((err) => {
       console.log(err);
     });
-  console.log(data);
   return data;
   // return ([
   //     {
