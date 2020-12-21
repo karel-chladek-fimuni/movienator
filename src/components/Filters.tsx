@@ -82,7 +82,7 @@ export const Filters: FC<FilterProps> = ({ onSubmit }) => {
       options={genres}
       disableCloseOnSelect
       limitTags={2}
-      style={{margin:0}}
+      style={{ margin: 0}}
       getOptionLabel={(option) => option}
       renderOption={(option, { selected }) => (
         <React.Fragment>
@@ -101,9 +101,7 @@ export const Filters: FC<FilterProps> = ({ onSubmit }) => {
           genre_filter: { ...filter.genre_filter, needed: val },
         });
       }}
-      renderInput={(params) => (
-        <TextField {...params} variant="outlined" placeholder="Genres" />
-      )}
+      renderInput={(params) => <TextField {...params} variant="outlined" />}
     />
   );
   let selectYear = (
@@ -113,7 +111,7 @@ export const Filters: FC<FilterProps> = ({ onSubmit }) => {
       max={years.max}
       value={[filter.year_filter!.min, filter.year_filter!.max]}
       onChange={handleYearChange}
-      style={{margin:0}}
+      style={{ margin: 0}}
       valueLabelDisplay="auto"
       aria-labelledby="range-slider"
       getAriaValueText={valuetext}
@@ -127,7 +125,7 @@ export const Filters: FC<FilterProps> = ({ onSubmit }) => {
       value={[filter.rating_filter!.min, filter.rating_filter!.max]}
       onChange={handleRatingChange}
       valueLabelDisplay="auto"
-      style={{margin:0}}
+      style={{ margin: 0 }}
       aria-labelledby="range-slider"
       getAriaValueText={valuetext}
     />
@@ -140,8 +138,8 @@ export const Filters: FC<FilterProps> = ({ onSubmit }) => {
       options={language}
       disableCloseOnSelect
       getOptionLabel={(option) => option}
-      style={{margin:0}}
-      limitTags={2}
+      style={{ margin: 0}}
+      limitTags={3}
       renderOption={(option, { selected }) => (
         <React.Fragment>
           <Checkbox
@@ -159,9 +157,7 @@ export const Filters: FC<FilterProps> = ({ onSubmit }) => {
           language_filter: { ...filter.language_filter, possible: val },
         });
       }}
-      renderInput={(params) => (
-        <TextField {...params} variant="outlined" placeholder="Languages" />
-      )}
+      renderInput={(params) => <TextField {...params} variant="outlined" />}
     />
   );
 
@@ -219,13 +215,30 @@ export const Filters: FC<FilterProps> = ({ onSubmit }) => {
             filterToggles[key] ? {} : { pointerEvents: "none", opacity: "0.4" }
           }
           item
-          xs={key==="genre" || key==="language"? 12 : 9}
+          xs={key === "genre" || key === "language" ? 12 : 9}
         >
           {select_arr[key]}
         </Grid>
       </Grid>
     );
   };
+  const handleSubmit = () => {
+    const newFilter: Filter = { ...base_filter };
+    if (filterToggles["genre"]) {
+      newFilter.genre_filter = filter.genre_filter;
+    }
+    if (filterToggles["rating"]) {
+      newFilter.rating_filter = filter.rating_filter;
+    }
+    if (filterToggles["year"]) {
+      newFilter.year_filter = filter.year_filter;
+    }
+    if (filterToggles["language"]) {
+      newFilter.language_filter = filter.language_filter;
+    }
+    onSubmit({ ...newFilter });
+  };
+
 
   return (
     <Grid container spacing={2} style={{ marginTop: "1rem" }}>
@@ -238,25 +251,10 @@ export const Filters: FC<FilterProps> = ({ onSubmit }) => {
       </Grid>
       <Grid item xs={12}>
         <Button
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: "100%", height: "100%",zIndex:-10}}
           variant="contained"
           color="primary"
-          onClick={() => {
-            const newFilter: Filter = { ...base_filter };
-            if (filterToggles["genre"]) {
-              newFilter.genre_filter = filter.genre_filter;
-            }
-            if (filterToggles["rating"]) {
-              newFilter.rating_filter = filter.rating_filter;
-            }
-            if (filterToggles["year"]) {
-              newFilter.year_filter = filter.year_filter;
-            }
-            if (filterToggles["language"]) {
-              newFilter.language_filter = filter.language_filter;
-            }
-            onSubmit({ ...newFilter });
-          }}
+          onClick={handleSubmit}
         >
           Filter
         </Button>

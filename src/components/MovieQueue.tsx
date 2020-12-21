@@ -30,6 +30,7 @@ export const MovieQueue: FC<Props> = ({ filter }) => {
   useEffect(() => {
     const runEffect = async () => {
       setMovies(await fetchMovieIds(filter));
+      setIndex(0);
     };
     runEffect();
   }, [filter]);
