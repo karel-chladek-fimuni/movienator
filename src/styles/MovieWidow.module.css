@@ -1,17 +1,14 @@
 .grid_container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   grid-template-rows: 0.1fr 0.2fr 0.2fr 0.2fr 1.8fr 2fr;
-  gap: 0px 0px;
   height: 100%;
-  padding: 1rem;
   grid-template-areas:
-    "poster year"
-    "poster rating"
-    "poster genres"
-    "poster download_netflix"
-    "poster description"
-    "poster yt_trailer";
+    "year"
+    "rating"
+    "genres"
+    "download_netflix"
+    "description"
+    "yt_trailer";
 }
 
 .poster {
@@ -47,6 +44,11 @@
 .genres {
   display: flex;
   grid-area: genres;
+  flex-wrap: wrap;
+}
+.genres::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
 }
 .description {
   margin-top: 1rem;

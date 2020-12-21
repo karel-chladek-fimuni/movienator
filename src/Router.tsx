@@ -7,11 +7,12 @@ import { Face } from "@material-ui/icons";
 import Fab from "@material-ui/core/Fab";
 import { makeStyles } from "@material-ui/core/styles";
 import { signOut, useLoggedInUser } from "./utils/firebase";
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Fade from '@material-ui/core/Fade';
-import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Fade from "@material-ui/core/Fade";
+import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
+import { MyList } from "./pages/MyList";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: { display: "flex", justifyContent: "space-between" },
@@ -20,11 +21,15 @@ const useStyles = makeStyles((theme) => ({
   fab: { size: "medium" },
 }));
 
-const routeIndices = [route.home, route.movie_search, "lists"];
-
 export const Router = () => {
   const classes = useStyles();
   const user = useLoggedInUser();
+  console.log(user);
+  
+  const routeIndices: string[] = [route.home, route.movie_search];
+  if (user) {
+    routeIndices.push(route.my_list);
+  }
   const [value, setValue] = React.useState(
     routeIndices.indexOf(useLocation().pathname)
   );
@@ -65,7 +70,9 @@ export const Router = () => {
             >
               <Tab label="Home" to={route.home} component={Link} />
               <Tab label="Movies" to={route.movie_search} component={Link} />
-              {user && <Tab label="My List" />}
+              {user && (
+                <Tab label="My List" to={route.my_list} component={Link} />
+              )}
             </Tabs>
           </Grid>
           <Grid item xs={1} container justify="flex-end" style={{marginLeft:"38px"}}>
@@ -112,6 +119,7 @@ export const Router = () => {
         <Route path={route.home} exact component={Home} />
         <Route path={route.movie_search} exact component={MovieSearch} />
         <Route path={route.login} exact component={Login} />
+        <Route path={route.my_list} exact component={MyList} />
         <Route component={Notfound} />
       </Switch>
     </>

@@ -23,7 +23,7 @@ export const MovieSearch = () => {
         onSubmit={setFilter}
       ></Filters>
 
-      <MovieQueue movies={movies} />
+      <MovieQueue is_in_list={false} movies={movies} />
     </div>
   );
 };

@@ -1,7 +1,8 @@
 export const route = {
     home : "/",
     movie_search : "/movie_search",
-    login: "/login"
+    login: "/login",
+    my_list:"/my_list"
 }
 
 export const filter_server = {
