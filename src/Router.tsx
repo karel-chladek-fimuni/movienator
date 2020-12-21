@@ -54,28 +54,33 @@ export const Router = () => {
           <Grid item xs={2}>
             <Typography variant="h4"> Movienator </Typography>
           </Grid>
-          <Grid item xs={9}>
+          <Grid item lg={7} sm={7} md={7} xs={6} style={{marginLeft:"60px"}}>
             <Tabs
               value={value}
               indicatorColor="primary"
               textColor="primary"
+              // variant="fullWidth"
+              centered
               onChange={handleChange}
-              aria-label="disabled tabs example"
             >
               <Tab label="Home" to={route.home} component={Link} />
               <Tab label="Movies" to={route.movie_search} component={Link} />
               {user && <Tab label="My List" />}
             </Tabs>
           </Grid>
-          <Grid item container justify="flex-end" xs={1}>
+          <Grid item xs={1} container justify="flex-end" style={{marginLeft:"38px"}}>
             <Grid item>
+              {/* {console.log(user)} */}
               {user === null ? (
+                
                 <Fab className={classes.fab} to={route.login} component={Link}>
                   <Face />
                 </Fab>
                 ):(
+                  
                 <div>
-                <Fab className={classes.fab} onClick={handleClick}>
+                  {/* {console.log(user)} */}
+                <Fab  color="primary" className={classes.fab} onClick={handleClick}>
                   <Face />
                 </Fab>
                 <Menu
