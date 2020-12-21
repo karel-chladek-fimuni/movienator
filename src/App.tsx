@@ -19,9 +19,19 @@ const theme = createMuiTheme({
         fontSize: 30,
       },
       h5:{
-        fontWeight: 600,
+        fontWeight: 500,
         fontSize: 30,
-      }
+      },
+      h3:{
+        fontWeight: 200,
+        fontSize: 40,
+      },
+      h1:{
+        fontWeight: 100,
+        fontFamily:'-apple-system',
+        fontSize: 90,
+        
+      },
     },
     MuiAppBar:{
       root:{

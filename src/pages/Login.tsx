@@ -12,20 +12,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import {route} from "../routes";
 
 import { signIn, signUp, useLoggedInUser } from '../utils/firebase';
-import image from './Movienator-01.svg';
+import loginImg from '../images/movienator.png'
 
-const useStyles = makeStyles((theme) => ({
-    wrapper: {
-        minHeight: "5rem",
-        maxHeight: "5rem",
-        marginTop: "3rem"
-    },
-  }));
 
 export const Login: FC = () => {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
-  const classes = useStyles();
 
   // Since firebase returns informative error messages we can show them directly
   const [error, setError] = useState<string>();
@@ -39,13 +31,11 @@ export const Login: FC = () => {
   return (
     <Grid
         container
-        direction="row"
-        alignItems="stretch"
-        justify="space-evenly"
-        spacing={3}
-        className={classes.wrapper}
+        direction="column"
+        alignItems="center"
+        justify="center"
         >
-        <Grid item xs={10} sm={8} md={6} lg={5}>
+        <Grid item xs={11} sm={8} md={6} lg={5} style={{marginTop:"3rem"}}>
             <Card>
             <CardContent>
                 <Typography style={{ marginLeft: 5 }} color="primary" variant='h5' component='h1'>
@@ -109,6 +99,11 @@ export const Login: FC = () => {
                 </Button>
             </CardActions>
             </Card>
+            
+        </Grid>
+        <Grid item xs={11} sm={8} md={6} lg={5} 
+                    style={{ marginLeft: "5rem" }}>
+                <img src={loginImg} width="84%" />
         </Grid>
     </Grid>
   );
