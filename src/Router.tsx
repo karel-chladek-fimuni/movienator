@@ -6,6 +6,7 @@ import { AppBar, Tabs, Tab, Typography, Grid } from "@material-ui/core";
 import { Face } from "@material-ui/icons";
 import Fab from "@material-ui/core/Fab";
 import { makeStyles } from "@material-ui/core/styles";
+import { signOut, useLoggedInUser } from "./utils/firebase";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: { display: "flex", justifyContent: "space-between" },
@@ -18,7 +19,7 @@ const routeIndices = [route.home, route.movie_search, "lists"];
 
 export const Router = () => {
   const classes = useStyles();
-
+  const user = useLoggedInUser();
   const [value, setValue] = React.useState(
     routeIndices.indexOf(useLocation().pathname)
   );
@@ -44,7 +45,7 @@ export const Router = () => {
             >
               <Tab label="Home" to={route.home} component={Link} />
               <Tab label="Movies" to={route.movie_search} component={Link} />
-              <Tab label="My List" />
+              {user && <Tab label="My List" />}
             </Tabs>
           </Grid>
           <Grid item container justify="flex-end" xs={1}>

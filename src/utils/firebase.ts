@@ -6,17 +6,14 @@ import { Movie } from '../types';
 
 // TODO: Add firebaseConfig and initialize the firebase app
 // Your web app's Firebase configuration
-var firebaseConfig = {
-  apiKey: "AIzaSyB0KEItpOXqDizwd5bGVUFCYCJ6RRwQlVQ",
-  authDomain: "movienatorserver.firebaseapp.com",
-  databaseURL: "https://movienatorserver-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "movienatorserver",
-  storageBucket: "movienatorserver.appspot.com",
-  messagingSenderId: "319380453552",
-  appId: "1:319380453552:web:f88a6d011af60cceb26375"
+const firebaseConfig = {
+  apiKey: "AIzaSyBQHci44stkKsNtKR_EMe95kcdZ5E7nzRs",
+  authDomain: "movienator-pv247.firebaseapp.com",
+  projectId: "movienator-pv247",
+  storageBucket: "movienator-pv247.appspot.com",
+  messagingSenderId: "257218063382",
+  appId: "1:257218063382:web:95998edc7b3c6adbde5937"
 };
-
-
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
