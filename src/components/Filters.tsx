@@ -251,7 +251,7 @@ export const Filters: FC<FilterProps> = ({ onSubmit }) => {
       </Grid>
       <Grid item xs={12}>
         <Button
-          style={{ width: "100%", height: "100%",zIndex:-10}}
+          style={{ width: "100%", height: "100%"}}
           variant="contained"
           color="primary"
           onClick={handleSubmit}

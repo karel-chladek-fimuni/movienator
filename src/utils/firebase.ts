@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'firebase/auth';
-import { Movie } from '../types';
-
+import { useEffect, useState } from "react";
+import firebase from "firebase/app";
+import "firebase/firestore";
+import "firebase/auth";
+  
 // TODO: Add firebaseConfig and initialize the firebase app
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -12,7 +11,7 @@ const firebaseConfig = {
   projectId: "movienator-pv247",
   storageBucket: "movienator-pv247.appspot.com",
   messagingSenderId: "257218063382",
-  appId: "1:257218063382:web:95998edc7b3c6adbde5937"
+  appId: "1:257218063382:web:95998edc7b3c6adbde5937",
 };
 
 // Initialize Firebase
@@ -23,10 +22,11 @@ const db = firebase.firestore();
 
 // We can simply cast this type to narrow our collection to Review type
 // Safer way would be to use .withConverter() method
-export const moviesCollection = db.collection(
-  'movies',
-) as firebase.firestore.CollectionReference<Movie>;
+type user_movie = { user_id: string; movie_id: number };
 
+export const myListCollection = db.collection(
+  "my_movie_list"
+) as firebase.firestore.CollectionReference<user_movie>;
 
 // Hook providing logged in user information
 export const useLoggedInUser = () => {
@@ -35,7 +35,9 @@ export const useLoggedInUser = () => {
 
   // Setup onAuthStateChanged once when component is mounted
   useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged(u => setUser(u));
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      setUser(user);
+    });
 
     // Call unsubscribe in the cleanup of the hook
     return () => unsubscribe();

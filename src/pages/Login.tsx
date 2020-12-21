@@ -8,8 +8,6 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
-import { route } from "../routes";
 
 import { signIn, signUp, useLoggedInUser } from "../utils/firebase";
 import loginImg from "../images/movienator.png";
@@ -103,7 +101,7 @@ export const Login: FC = () => {
               Login
             </Button>
           </CardActions>
-          <img src={loginImg} style={{ width: "100%", height: "auto" }} />
+          <img src={loginImg} alt="" style={{ width: "100%", height: "auto" }} />
         </Card>
       </Grid>
     </Grid>

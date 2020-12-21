@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
             marginBottom: theme.spacing(1),
             display: 'flex',
-            // position: 'absolute',
             width: 350,
             height: 38,
             marginLeft: 'auto',

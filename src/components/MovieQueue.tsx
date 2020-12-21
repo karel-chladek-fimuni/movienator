@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
 import { FC } from "react";
-import { Filter } from "../types";
 import { MovieWindow } from "./MovieWindow";
-import { fetchMovieIds } from "../stores/MovieStore";
+import { LoadingMovie } from "./LoadingMovie";
 import React from "react";
 import { Button, Grid, makeStyles } from "@material-ui/core";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import { EmptyMovie } from "./EmptyMovie";
 
 type Props = {
-  filter: Filter;
+  movies: number[] | undefined;
+  is_in_list:boolean;
+  refresh_function?:()=>void;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -23,17 +25,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const MovieQueue: FC<Props> = ({ filter }) => {
+export const MovieQueue: FC<Props> = ({ movies,is_in_list,refresh_function}) => {
   const [index, setIndex] = useState<number>(0);
-  const [movies, setMovies] = useState<number[]>([]);
-
   useEffect(() => {
-    const runEffect = async () => {
-      setMovies(await fetchMovieIds(filter));
-      setIndex(0);
-    };
-    runEffect();
-  }, [filter]);
+    setIndex(0);
+  }, [movies]);
   const classes = useStyles();
   return (
     <Grid
@@ -48,7 +44,7 @@ export const MovieQueue: FC<Props> = ({ filter }) => {
         <Button
           className={classes.button}
           color="primary"
-          disabled={index < 1}
+          disabled={typeof movies == "undefined" || index < 1}
           onClick={() => {
             setIndex(index - 1);
           }}
@@ -57,17 +53,19 @@ export const MovieQueue: FC<Props> = ({ filter }) => {
         </Button>
       </Grid>
       <Grid item xs={10}>
-        {index < movies.length && index >= 0 ? (
-          <MovieWindow movie={{ id: movies[index] }} />
+        {typeof movies == "undefined" ? (
+          <LoadingMovie />
+        ) : movies.length !== 0 ? (
+          <MovieWindow refresh_function={refresh_function} is_added={is_in_list} movie={{ id: movies[index] }} />
         ) : (
-          <MovieWindow />
+          <EmptyMovie />
         )}
       </Grid>
       <Grid item xs={1}>
         <Button
           className={classes.button}
           color="primary"
-          disabled={index >= movies.length - 1}
+          disabled={typeof movies == "undefined" || index >= movies.length - 1}
           onClick={() => {
             setIndex(index + 1);
           }}

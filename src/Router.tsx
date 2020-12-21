@@ -7,11 +7,12 @@ import { Face } from "@material-ui/icons";
 import Fab from "@material-ui/core/Fab";
 import { makeStyles } from "@material-ui/core/styles";
 import { signOut, useLoggedInUser } from "./utils/firebase";
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Fade from '@material-ui/core/Fade';
-import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Fade from "@material-ui/core/Fade";
+import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
+import { MyList } from "./pages/MyList";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: { display: "flex", justifyContent: "space-between" },
@@ -20,14 +21,28 @@ const useStyles = makeStyles((theme) => ({
   fab: { size: "medium" },
 }));
 
-const routeIndices = [route.home, route.movie_search, "lists"];
-
 export const Router = () => {
   const classes = useStyles();
   const user = useLoggedInUser();
-  const [value, setValue] = React.useState(
-    routeIndices.indexOf(useLocation().pathname)
-  );
+
+  let routeIndices: string[] = [];
+  if (user) {
+    routeIndices = [route.home, route.movie_search, route.my_list];
+  } else {
+    routeIndices = [route.home, route.movie_search];
+  }
+  const path = useLocation().pathname;
+  
+  const get_value = () => {
+    let val = routeIndices.indexOf(path);
+    if (val === -1) {
+      val = 2;
+    }
+    return val;
+  };
+  
+  const [value, setValue] = React.useState(get_value());
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -46,72 +61,93 @@ export const Router = () => {
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
-
   return (
     <>
-      <AppBar color="transparent" position="static">
-        <Grid container spacing={5}>
-          <Grid item xs={2}>
-            <Typography variant="h4"> Movienator </Typography>
-          </Grid>
-          <Grid item lg={7} sm={7} md={7} xs={6} style={{marginLeft:"60px"}}>
-            <Tabs
-              value={value}
-              indicatorColor="primary"
-              textColor="primary"
-              // variant="fullWidth"
-              centered
-              onChange={handleChange}
+        <AppBar color="transparent" position="static">
+          <Grid container spacing={5}>
+            <Grid item xs={2}>
+              <Typography variant="h4"> Movienator </Typography>
+            </Grid>
+            <Grid
+              item
+              lg={7}
+              sm={7}
+              md={7}
+              xs={6}
+              style={{ marginLeft: "60px" }}
             >
-              <Tab label="Home" to={route.home} component={Link} />
-              <Tab label="Movies" to={route.movie_search} component={Link} />
-              {user && <Tab label="My List" />}
-            </Tabs>
-          </Grid>
-          <Grid item xs={1} container justify="flex-end" style={{marginLeft:"38px"}}>
-            <Grid item>
-              {/* {console.log(user)} */}
-              {user === null ? (
-                
-                <Fab className={classes.fab} to={route.login} component={Link}>
-                  <Face />
-                </Fab>
-                ):(
-                  
-                <div>
-                  {/* {console.log(user)} */}
-                <Fab  color="primary" className={classes.fab} onClick={handleClick}>
-                  <Face />
-                </Fab>
-                <Menu
-                  id="fade-menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={open}
-                  onClose={handleClose}
-                  TransitionComponent={Fade}
-                >
-                  <Box m={2} ml={1}>
-                  <Typography>Are you sure you want to sign out?</Typography>
-                    <MenuItem onClick={handleCloseAndSignOut}>
-                      <Button variant="contained"
-                              color="primary">
-                                Sign out
-                      </Button>
-                    </MenuItem>
-                  </Box>
-                </Menu>
-                </div>
-              )}
+              <Tabs
+                value={value < routeIndices.length ? value : 0}
+                indicatorColor="primary"
+                textColor="primary"
+                // variant="fullWidth"
+                centered
+                onChange={handleChange}
+              >
+                <Tab label="Home" to={route.home} component={Link} />
+                <Tab label="Movies" to={route.movie_search} component={Link} />
+                {user && (
+                  <Tab label="My List" to={route.my_list} component={Link} />
+                )}
+              </Tabs>
+            </Grid>
+            <Grid
+              item
+              xs={1}
+              container
+              justify="flex-end"
+              style={{ marginLeft: "38px" }}
+            >
+              <Grid item>
+                {/* {console.log(user)} */}
+                {user === null ? (
+                  <Fab
+                    className={classes.fab}
+                    to={route.login}
+                    component={Link}
+                  >
+                    <Face />
+                  </Fab>
+                ) : (
+                  <div>
+                    {/* {console.log(user)} */}
+                    <Fab
+                      color="primary"
+                      className={classes.fab}
+                      onClick={handleClick}
+                    >
+                      <Face />
+                    </Fab>
+                    <Menu
+                      id="fade-menu"
+                      anchorEl={anchorEl}
+                      keepMounted
+                      open={open}
+                      onClose={handleClose}
+                      TransitionComponent={Fade}
+                    >
+                      <Box m={2} ml={1}>
+                        <Typography>
+                          Are you sure you want to sign out?
+                        </Typography>
+                        <MenuItem onClick={handleCloseAndSignOut}>
+                          <Button variant="contained" color="primary">
+                            Sign out
+                          </Button>
+                        </MenuItem>
+                      </Box>
+                    </Menu>
+                  </div>
+                )}
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </AppBar>
-
+        </AppBar>
       <Switch>
         <Route path={route.home} exact component={Home} />
         <Route path={route.movie_search} exact component={MovieSearch} />
         <Route path={route.login} exact component={Login} />
+        <Route path={route.my_list} exact component={MyList} />
         <Route component={Notfound} />
       </Switch>
     </>
