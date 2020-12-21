@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
-import { Movie } from "../types";
-
+  
 // TODO: Add firebaseConfig and initialize the firebase app
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -37,11 +36,7 @@ export const useLoggedInUser = () => {
   // Setup onAuthStateChanged once when component is mounted
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      if (user && typeof(user) != "undefined") {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
+      setUser(user);
     });
 
     // Call unsubscribe in the cleanup of the hook

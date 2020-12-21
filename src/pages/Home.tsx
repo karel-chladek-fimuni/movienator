@@ -1,7 +1,6 @@
 import { Grid, makeStyles, Theme, Typography } from "@material-ui/core";
 import React from 'react';
 import image2 from '../images/HomeImage.png'
-import { useLoggedInUser } from "../utils/firebase";
 
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -14,7 +13,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const Home = ()=>{
     const classes = useStyles();
-    const user = (useLoggedInUser()?.uid)
     return (
     <div style={{ backgroundImage:  `url(${image2})`, 
                 backgroundRepeat: "no-repeat",
@@ -22,7 +20,6 @@ export const Home = ()=>{
                 backgroundPositionY:"1rem",
                 backgroundSize: "35% ",
                 }}>
-        {console.log(user)}
         <Grid container style={{width:"100%", height:"100%",minHeight:"25rem"}}>
             <Grid item xs={12}>
             <Typography variant='h3' className={classes.margin} align='center'>Welcome to </Typography>

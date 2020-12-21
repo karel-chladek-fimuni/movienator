@@ -13,12 +13,9 @@ import {
   Grid,
   Card,
   Typography,
-  CircularProgress,
   CardContent,
   makeStyles,
-  CardHeader,
   Link,
-  IconButton,
   Button,
 } from "@material-ui/core";
 import { LoadingMovie } from "./LoadingMovie";
@@ -48,39 +45,36 @@ export const MovieWindow: FC<Props> = (props) => {
   const user = useLoggedInUser();
   useEffect(() => {
     const runEffect = async () => {
-      if (typeof props.movie != "undefined") {
+      if (typeof(props.movie) != "undefined") {
         setMovie({ get: await fetchMovie(props.movie!.id) });
       }
     };
     runEffect();
   }, [props]);
   useEffect(() => {
-    if (user && movie != undefined && movie.get != undefined) {
+    if (user && typeof(movie) != "undefined" && typeof(movie.get) != "undefined") {
       (async () => {
         let new_can = true;
         const item_list = await myListCollection
           .where("user_id", "==", user.uid)
           .get();
         item_list.forEach((doc) => {
-          console.log(doc.data().movie_id)
           if (movie.get!.id === doc.data().movie_id) {
             new_can = false;
           }
         });
-        console.log(new_can);
         setCanBeAdded(new_can);
       })();
     }
   }, [user,movie]);
   const removeMovie = () => {
-    if (user && movie != undefined && movie.get != undefined) {
+    if (user && typeof(movie) != "undefined" && typeof(movie.get) != "undefined") {
       (async () => {
         const item_list = await myListCollection
           .where("user_id", "==", user.uid)
           .get();
 
         item_list.forEach((doc) => {
-          console.log(doc.data().movie_id)
           if (movie.get!.id === doc.data().movie_id) {
             myListCollection.doc(doc.id).delete();
           }
@@ -104,7 +98,6 @@ export const MovieWindow: FC<Props> = (props) => {
       <Grid
         container
         style={{ width: "100%", height: "100%" }}
-        xs={12}
         direction="column"
       >
         <Grid item container direction="row" style={{ padding: "1rem" }}>
@@ -130,7 +123,7 @@ export const MovieWindow: FC<Props> = (props) => {
         </Grid>
         <Grid item xs={12}>
           <CardContent>
-            <Grid container xs={12} spacing={3}>
+            <Grid container style={{width:"100%"}} spacing={3}>
               <Grid item md={6} xs={12}>
                 <img
                   className={styles.poster_img}
@@ -176,8 +169,8 @@ export const MovieWindow: FC<Props> = (props) => {
                   </div>
                   <div className={styles.genres}>
                     <Typography>Genres: </Typography>
-                    {movie.get.genres?.map((g: Genre) => (
-                      <Typography>{g}</Typography>
+                    {movie.get.genres?.map((g: Genre,idx:number) => (
+                      <Typography key={idx}>{g}</Typography>
                     ))}
                   </div>
                   <div className={styles.description}>

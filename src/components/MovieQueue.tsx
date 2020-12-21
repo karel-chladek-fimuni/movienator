@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import { FC } from "react";
-import { Filter } from "../types";
 import { MovieWindow } from "./MovieWindow";
 import { LoadingMovie } from "./LoadingMovie";
-import { fetchMovieIds } from "../stores/MovieStore";
 import React from "react";
 import { Button, Grid, makeStyles } from "@material-ui/core";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
