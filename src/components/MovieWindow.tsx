@@ -21,11 +21,10 @@ import {
 import { LoadingMovie } from "./LoadingMovie";
 import { EmptyMovie } from "./EmptyMovie";
 import { useLoggedInUser, myListCollection } from "../utils/firebase";
-
 type Props = {
   movie?: Movie;
   is_added: boolean;
-  refresh_function?:()=>void;
+  refresh_function?: () => void;
 };
 type PossibleMovie = {
   get?: Movie;
@@ -45,14 +44,19 @@ export const MovieWindow: FC<Props> = (props) => {
   const user = useLoggedInUser();
   useEffect(() => {
     const runEffect = async () => {
-      if (typeof(props.movie) != "undefined") {
-        setMovie({ get: await fetchMovie(props.movie!.id) });
+      if (typeof props.movie != "undefined") {
+        const new_movie = await fetchMovie(props.movie!.id);
+        setMovie({ get: new_movie });
       }
     };
     runEffect();
   }, [props]);
   useEffect(() => {
-    if (user && typeof(movie) != "undefined" && typeof(movie.get) != "undefined") {
+    if (
+      user &&
+      typeof movie != "undefined" &&
+      typeof movie.get != "undefined"
+    ) {
       (async () => {
         let new_can = true;
         const item_list = await myListCollection
@@ -66,9 +70,13 @@ export const MovieWindow: FC<Props> = (props) => {
         setCanBeAdded(new_can);
       })();
     }
-  }, [user,movie]);
+  }, [user, movie]);
   const removeMovie = () => {
-    if (user && typeof(movie) != "undefined" && typeof(movie.get) != "undefined") {
+    if (
+      user &&
+      typeof movie != "undefined" &&
+      typeof movie.get != "undefined"
+    ) {
       (async () => {
         const item_list = await myListCollection
           .where("user_id", "==", user.uid)
@@ -79,8 +87,9 @@ export const MovieWindow: FC<Props> = (props) => {
             myListCollection.doc(doc.id).delete();
           }
         });
-        (props.refresh_function!)();
+        props.refresh_function!();
       })();
+      setCanBeAdded(true);
     }
   };
   const addMovie = () => {
@@ -123,7 +132,7 @@ export const MovieWindow: FC<Props> = (props) => {
         </Grid>
         <Grid item xs={12}>
           <CardContent>
-            <Grid container style={{width:"100%"}} spacing={3}>
+            <Grid container style={{ width: "100%" }} spacing={3}>
               <Grid item md={6} xs={12}>
                 <img
                   className={styles.poster_img}
@@ -169,7 +178,7 @@ export const MovieWindow: FC<Props> = (props) => {
                   </div>
                   <div className={styles.genres}>
                     <Typography>Genres: </Typography>
-                    {movie.get.genres?.map((g: Genre,idx:number) => (
+                    {movie.get.genres?.map((g: Genre, idx: number) => (
                       <Typography key={idx}>{g}</Typography>
                     ))}
                   </div>
@@ -179,12 +188,18 @@ export const MovieWindow: FC<Props> = (props) => {
                     </Typography>
                   </div>
                   <div className={styles.yt_trailer}>
-                    <ReactPlayer
-                      controls
-                      width="100%"
-                      hight="100%"
-                      url={`https://youtu.be/${movie.get!.yt_trailer_code}`}
-                    />
+                    {(() => {
+                      const url = `https://youtu.be/${movie.get!.yt_trailer_code}`;
+                      //TODO: if not exist return <></>
+                      return (
+                        <ReactPlayer
+                          controls
+                          width="100%"
+                          hight="100%"
+                          url={url}
+                        />
+                      );
+                    })()}
                   </div>
                 </div>
               </Grid>

@@ -3,9 +3,12 @@ import { filter_server } from "../routes";
 
 
 export const fetchMovie : (id:number)=>Promise<Movie> = async (id:number)=>{
-    const data : any = await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`).then((response)=>(response.json())).catch((err)=>{
-        console.log(err);
+    const data = await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`).then((response)=>(response.json())).catch((err)=>{
+        return undefined;
     });
+    if(typeof(data)=="undefined"){
+      return undefined;
+    }
     return data["data"]["movie"];
 };
 
@@ -13,7 +16,7 @@ export const fetchMovieIds: (filter_data: any) => Promise<number[]> = async (
   filter_data: any
 ) => {
   const request_body = JSON.stringify(filter_data);
-  const data: any = await fetch(filter_server.get_movies, {
+  const data = await fetch(filter_server.get_movies, {
     method: "POST",
     headers: {
       'Accept': "application/json",
