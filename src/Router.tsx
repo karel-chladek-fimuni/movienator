@@ -68,32 +68,19 @@ export const Router = () => {
           <Grid item xs={12} md={2}>
             <Typography variant="h4"> Movienator </Typography>
           </Grid>
-          <Grid item lg={7} spacing ={0} sm={9} md={7} xs={12} style={{}}>
+          <Grid item lg={7} spacing={0} sm={9} md={7} xs={12} style={{}}>
             <Tabs
               value={value < routeIndices.length ? value : 0}
               indicatorColor="primary"
               textColor="primary"
-              // variant="fullWidth"
               centered
               onChange={handleChange}
             >
-              <Grid container spacing={0}>
-                <Grid item xs={4}>
-                  <Tab label="Home" to={route.home} component={Link} />
-                </Grid>
-                <Grid item xs={4}>
-                  <Tab
-                    label="Movies"
-                    to={route.movie_search}
-                    component={Link}
-                  />
-                </Grid>
-                {user && (
-                  <Grid item xs={4}>
-                    <Tab label="My List" to={route.my_list} component={Link} />
-                  </Grid>
-                )}
-              </Grid>
+              <Tab label="Home" to={route.home} component={Link} />
+              <Tab label="Movies" to={route.movie_search} component={Link} />
+              {user && (
+                <Tab label="My List" to={route.my_list} component={Link} />
+              )}
             </Tabs>
           </Grid>
           <Grid

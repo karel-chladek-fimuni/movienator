@@ -36,7 +36,7 @@ export const MovieQueue: FC<Props> = ({ movies,is_in_list,refresh_function}) => 
       container
       direction="row"
       alignItems="stretch"
-      justify="space-evenly"
+      justify="space-between"
       spacing={3}
       className={classes.wrapper}
     >
