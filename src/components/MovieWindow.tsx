@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Movie } from "../types";
+import { Genre, Movie } from "../types";
 import { fetchMovie } from "../stores/MovieStore";
 import ReactPlayer from "react-player";
 import Rating from "@material-ui/lab/Rating";
@@ -118,6 +118,10 @@ export const MovieWindow: FC<Props> = (props) => {
             >
               HBOGO
             </Link>
+          </div>
+          <div className={styles.genres}>
+            <Typography>Genres: </Typography>
+            {movie.get.genres?.map((g:Genre)=>(<Typography>{g}</Typography>))}
           </div>
           <div className={styles.description}>
             <Typography align="center">{movie.get.description_full}</Typography>
