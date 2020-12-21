@@ -1,28 +1,51 @@
 import { useEffect, useState } from "react";
-import { Movie } from "../types";
+import { Movie, Filter } from "../types";
+import { filter_server } from "../routes";
 
 
-const loadMovies: () => Promise<Movie[]> = async () => {
-    // const data : any = await fetch("https://yts.mx/api/v2/list_movies.json?limit=50").then((response)=>(response.json())).catch((err)=>{
-    //     console.log(err);
-    // });
-    // console.log(data);
-    // return data["data"]["movies"]; 
-    return ([
-        {
-            id: 1,
-            title: "Marvel",
-            title_long: "Marvel CU"
-        }
-    ])
-}
-export const useMovies = () => {
-    const [movies, setMovies] = useState<Movie[]>([]);
-    useEffect(() => {
-        const fetchData = async () => {
-            setMovies(await loadMovies());
-        };
-        fetchData();
-    }, [])
-    return movies;
-} 
+export const fetchMovie : (id:number)=>Promise<Movie> = async (id:number)=>{
+    const data : any = await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`).then((response)=>(response.json())).catch((err)=>{
+        console.log(err);
+    });
+    console.log("given: ",id)
+    console.log(data);
+    return data["data"]["movie"];
+};
+
+export const fetchMovieIds: (filter_data: any) => Promise<number[]> = async (
+  filter_data: any
+) => {
+  const request_body = JSON.stringify(filter_data);
+  console.log(request_body);
+  const data: any = await fetch(filter_server.get_movies, {
+    method: "POST",
+    headers: {
+      'Accept': "application/json",
+      'Content-Type': "application/json"
+    },
+    body: request_body,
+  })
+    .then((response) => response.json())
+    .catch((err) => {
+      console.log(err);
+    });
+  console.log(data);
+  return data;
+  // return ([
+  //     {
+  //         id: 1,
+  //         title: "Marvel1",
+  //         title_long: "Marvel CU"
+  //     },
+  //     {
+  //         id: 2,
+  //         title: "Marvel2",
+  //         title_long: "Marvel CU"
+  //     },
+  //     {
+  //         id: 3,
+  //         title: "Marvel3",
+  //         title_long: "Marvel CU"
+  //     }
+  // ])
+};
