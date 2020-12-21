@@ -20,7 +20,7 @@ export const Home = ()=>{
                 backgroundPositionY:"1rem",
                 backgroundSize: "35% ",
                 }}>
-        <Grid container style={{width:"100%", height:"100%",minHeight:"25rem"}}>
+        <Grid container style={{width:"100%", height:"100%"}}>
             <Grid item xs={12}>
             <Typography variant='h3' className={classes.margin} align='center'>Welcome to </Typography>
             <Typography variant='h1' style = {{marginTop:"1rem"}} align='center' color= "primary">Movienator</Typography>

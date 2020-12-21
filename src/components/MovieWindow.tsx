@@ -110,18 +110,19 @@ export const MovieWindow: FC<Props> = (props) => {
         direction="column"
       >
         <Grid item container direction="row" style={{ padding: "1rem" }}>
-          <Grid item xs={1}></Grid>
-          <Grid item xs={10}>
+          <Grid item xs={1} sm={1} md={1}></Grid>
+          <Grid item xs={7} sm={9} md={10}>
             <Typography variant="h4" align="center">
               {movie.get!.title}
             </Typography>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={4} sm={2} md={1}>
             {user &&
               ((props.is_added && !canBeAdded) ||
                 (!props.is_added && canBeAdded)) && (
                 <Button
                   variant="contained"
+                  style={{width:"100%", height:"100%"}}
                   color="primary"
                   onClick={props.is_added ? removeMovie : addMovie}
                 >
