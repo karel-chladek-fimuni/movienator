@@ -10,6 +10,8 @@ import { signOut, useLoggedInUser } from "./utils/firebase";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: { display: "flex", justifyContent: "space-between" },
@@ -84,7 +86,15 @@ export const Router = () => {
                   onClose={handleClose}
                   TransitionComponent={Fade}
                 >
-                  <MenuItem onClick={handleCloseAndSignOut}>Sign out</MenuItem>
+                  <Box m={2} ml={1}>
+                  <Typography>Are you sure you want to sign out?</Typography>
+                    <MenuItem onClick={handleCloseAndSignOut}>
+                      <Button variant="contained"
+                              color="primary">
+                                Sign out
+                      </Button>
+                    </MenuItem>
+                  </Box>
                 </Menu>
                 </div>
               )}
