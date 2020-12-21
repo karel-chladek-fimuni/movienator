@@ -1,9 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Filters, MovieQueue } from "../components";
+import { fetchMovieIds } from "../stores/MovieStore";
 
 
 export const MovieSearch = () => {
   const [filter, setFilter] = useState({});
+  const [movies, setMovies] = useState<number[]|undefined>([]);
+
+  useEffect(() => {
+    setMovies(undefined);
+    const runEffect = async () => {
+      setMovies(await fetchMovieIds(filter));
+    };
+    runEffect();
+  }, [filter]);
+
   return (
     <div>
       {/* <SearchInput value={searchString} onClear={handleClickClear} onChange={handleChangeSearchValue}/> */}
@@ -12,7 +23,7 @@ export const MovieSearch = () => {
         onSubmit={setFilter}
       ></Filters>
 
-      <MovieQueue filter={filter} />
+      <MovieQueue movies={movies} />
     </div>
   );
 };
