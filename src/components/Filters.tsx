@@ -206,6 +206,7 @@ export const Filters: FC<FilterProps> = ({ onSubmit }) => {
               setFilterToggles(new_toggle);
             }}
             style={styling}
+            size="small"
             value={filterToggles[key]}
             selected={filterToggles[key]}
           >

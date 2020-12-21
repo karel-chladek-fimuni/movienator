@@ -7,6 +7,9 @@ import { Face } from "@material-ui/icons";
 import Fab from "@material-ui/core/Fab";
 import { makeStyles } from "@material-ui/core/styles";
 import { signOut, useLoggedInUser } from "./utils/firebase";
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Fade from '@material-ui/core/Fade';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: { display: "flex", justifyContent: "space-between" },
@@ -23,6 +26,20 @@ export const Router = () => {
   const [value, setValue] = React.useState(
     routeIndices.indexOf(useLocation().pathname)
   );
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleCloseAndSignOut = () => {
+    setAnchorEl(null);
+    signOut();
+  };
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
@@ -50,9 +67,27 @@ export const Router = () => {
           </Grid>
           <Grid item container justify="flex-end" xs={1}>
             <Grid item>
-              <Fab className={classes.fab} to={route.login} component={Link}>
-                <Face />
-              </Fab>
+              {user === null ? (
+                <Fab className={classes.fab} to={route.login} component={Link}>
+                  <Face />
+                </Fab>
+                ):(
+                <div>
+                <Fab className={classes.fab} onClick={handleClick}>
+                  <Face />
+                </Fab>
+                <Menu
+                  id="fade-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={open}
+                  onClose={handleClose}
+                  TransitionComponent={Fade}
+                >
+                  <MenuItem onClick={handleCloseAndSignOut}>Sign out</MenuItem>
+                </Menu>
+                </div>
+              )}
             </Grid>
           </Grid>
         </Grid>
