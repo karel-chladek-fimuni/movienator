@@ -8,8 +8,8 @@
   grid-template-areas:
     "poster year"
     "poster rating"
-    "poster download_netflix"
     "poster genres"
+    "poster download_netflix"
     "poster description"
     "poster yt_trailer";
 }
@@ -38,15 +38,15 @@
 
 .download_netflix {
   grid-area: download_netflix;
+  border-color: #f44336;
+  border-style: solid;
+  border-width: 0;
+  border-bottom-width: 1px ;
 }
 
 .genres {
   display: flex;
   grid-area: genres;
-  border-color: #f44336;
-  border-style: solid;
-  border-width: 0;
-  border-bottom-width: 1px ;
 }
 .description {
   margin-top: 1rem;
