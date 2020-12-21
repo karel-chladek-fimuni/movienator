@@ -56,7 +56,7 @@ export const Login: FC = () => {
                 label='Email'
                 type='email'
                 name='email'
-                fullWidth
+                fullWidth = {true}
                 autoComplete='email'
                 margin='normal'
                 variant='outlined'
@@ -67,7 +67,7 @@ export const Login: FC = () => {
                 label='Password'
                 type='password'
                 name='password'
-                fullWidth
+                fullWidth = {true}
                 margin='normal'
                 variant='outlined'
                 value={password}

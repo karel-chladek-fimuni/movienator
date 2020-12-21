@@ -1,0 +1,53 @@
+.grid_container {
+  display: grid;
+  max-height: 20rem;
+  width: 100%;
+  margin-top: 5rem;
+  grid-template-rows: 0.3fr 0.3fr 0.3fr;
+  grid-template-areas:
+    "toggle_area "
+    "value_flexbox "
+    "filter_button ";
+}
+
+.value_box {
+  display: grid;
+
+  grid-area: "value_flexbox";
+  grid-template-columns: 0.25fr 0.25fr 0.25fr 0.25fr;
+  grid-template-areas: "genres_value rank_value year_value language_value";
+}
+.genres_value {
+  width: 100%;
+  margin: auto;
+  grid-area: genres_value;
+}
+
+.rank_value {
+  grid-area: rank_value;
+  width: 80%;
+  display: flex;
+  justify-items: center;
+  justify-content: center;
+}
+
+.year_value {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+}
+
+.language_value {
+  width: 100%;
+  margin: auto;
+  grid-area: language_value;
+}
+
+.toggle_area {
+  grid-area: toggle_area;
+}
+
+.filter_button {
+  grid-area: filter_button;
+  margin-bottom: 2rem;
+}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FC } from "react";
-import { Filter, Movie } from "../types";
+import { Filter } from "../types";
 import { MovieWindow } from "./MovieWindow";
 import { fetchMovieIds } from "../stores/MovieStore";
 import React from "react";
@@ -46,7 +46,7 @@ export const MovieQueue: FC<Props> = ({ filter }) => {
       <Grid item xs={1}>
         <Button
           className={classes.button}
-          color="secondary"
+          color="primary"
           disabled={index < 1}
           onClick={() => {
             setIndex(index - 1);
@@ -65,7 +65,7 @@ export const MovieQueue: FC<Props> = ({ filter }) => {
       <Grid item xs={1}>
         <Button
           className={classes.button}
-          color="secondary"
+          color="primary"
           disabled={index >= movies.length - 1}
           onClick={() => {
             setIndex(index + 1);
