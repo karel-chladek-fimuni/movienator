@@ -6,5 +6,5 @@ export const route = {
 }
 
 export const filter_server = {
-    get_movies: "http://happyalpacas.ddns.net:7777/movies"
+    get_movies: "https://94.112.224.195:7777/movies"
 }
